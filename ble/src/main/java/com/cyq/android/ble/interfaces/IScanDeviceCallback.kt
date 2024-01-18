@@ -9,6 +9,6 @@ import com.cyq.android.ble.bean.DeviceInfo
  */
 interface IScanDeviceCallback {
 
-    fun onScanDevice(deviceInfo: MutableList<DeviceInfo>)
+    fun onScanDevice(deviceInfoList: MutableList<DeviceInfo>)
 
 }

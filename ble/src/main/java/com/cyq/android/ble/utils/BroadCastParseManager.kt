@@ -1,6 +1,8 @@
 package com.cyq.android.ble.utils
 
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.ScanResult
+import android.text.TextUtils
 import com.cyq.android.ble.BleLog
 import com.cyq.android.ble.bean.DeviceInfo
 import java.util.concurrent.ConcurrentHashMap
@@ -12,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 object BroadCastParseManager {
 
+    // 缓存扫描到的蓝牙设备信息
     private val mScanDeviceInfoMap = ConcurrentHashMap<String, DeviceInfo>()
 
     // 记录上一次回调蓝牙扫描结果的时间，间隔时间内再回调通知业务层
@@ -21,6 +24,9 @@ object BroadCastParseManager {
     private const val threshold = 500
 
     private var mINotifyCallback: INotifyScanResult? = null
+
+    // 缓存扫描到的蓝牙设备原始信息
+    private var mBluetoothDeviceMap = ConcurrentHashMap<String, BluetoothDevice>()
 
     /**
      * 解析蓝牙广播
@@ -40,12 +46,20 @@ object BroadCastParseManager {
             }
             deviceInfo.scanTimeStamp = System.currentTimeMillis()
             mScanDeviceInfoMap[deviceInfo.bleAddress] = deviceInfo
+            mBluetoothDeviceMap[deviceInfo.bleAddress] = scanResult.device
             notifyScanCallback()
             return deviceInfo
         } catch (e: Exception) {
             BleLog.e("parse broadcast error:${e.message ?: "unknown"}")
             return null
         }
+    }
+
+    fun getBluetoothDevice(bleAddress: String?): BluetoothDevice? {
+        if (TextUtils.isEmpty(bleAddress)){
+            return null
+        }
+        return mBluetoothDeviceMap[bleAddress]
     }
 
     private fun notifyScanCallback() {

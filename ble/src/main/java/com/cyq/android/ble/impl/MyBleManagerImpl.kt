@@ -7,7 +7,9 @@ import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
+import android.util.Log
 import com.cyq.android.ble.BleLog
+import com.cyq.android.ble.MyBleManager
 import com.cyq.android.ble.bean.BleMessage
 import com.cyq.android.ble.bean.DeviceInfo
 import com.cyq.android.ble.interfaces.IBleManager
@@ -16,6 +18,7 @@ import com.cyq.android.ble.interfaces.IConnectBleCallback
 import com.cyq.android.ble.interfaces.IScanDeviceCallback
 import com.cyq.android.ble.interfaces.ISendBleMessageCallback
 import com.cyq.android.ble.utils.BroadCastParseManager
+import no.nordicsemi.android.ble.BleManager
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CopyOnWriteArraySet
 
@@ -27,8 +30,12 @@ import java.util.concurrent.CopyOnWriteArraySet
 class MyBleManagerImpl : IBleManager {
     private var mApplication: Application? = null
     private var mBluetoothManager: BluetoothManager? = null
-
     private val mScanDeviceCallbackSet = CopyOnWriteArraySet<IScanDeviceCallback>()
+    private lateinit var mBleManager: MyBleManager
+
+    companion object {
+        private const val TAG = "MyBleManagerImpl"
+    }
 
     private val mScanCallback = object : ScanCallback() {
         override fun onScanResult(callbackType: Int, result: ScanResult?) {
@@ -68,6 +75,7 @@ class MyBleManagerImpl : IBleManager {
         mApplication = application
         mBluetoothManager =
             application.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager?
+        mBleManager = MyBleManager(application.applicationContext)
     }
 
     override fun startScanDevice() {
@@ -110,7 +118,18 @@ class MyBleManagerImpl : IBleManager {
     override fun sendMessage(message: BleMessage?, callback: ISendBleMessageCallback?) {
     }
 
-    override fun connect(bleAddress: String?, timeout: Int, connectCallback: IConnectBleCallback?) {
+    override fun connect(
+        bleAddress: String?,
+        timeout: Int?,
+        connectCallback: IConnectBleCallback?
+    ) {
+        val bluetoothDevice = BroadCastParseManager.getBluetoothDevice(bleAddress)
+        if (bluetoothDevice == null) {
+            //TODO 没有扫描到设备，尝试扫描设备并连接
+            Log.d(TAG, "--->去扫描设备")
+            return
+        }
+        mBleManager.connect(bluetoothDevice)
     }
 
     override fun removeSendBleMessageCallback(callback: ISendBleMessageCallback) {

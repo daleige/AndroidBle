@@ -1,6 +1,7 @@
 package com.cyq.android.ble.interfaces
 
 import android.bluetooth.BluetoothDevice
+import com.cyq.android.ble.bean.DeviceInfo
 
 /**
  * @author：YangQi.Chen
@@ -9,10 +10,12 @@ import android.bluetooth.BluetoothDevice
  */
 interface IConnectBleCallback {
 
+    fun onStartConnect(device: DeviceInfo)
+
     /**
      * 连接成功
      */
-    fun connectSuccess(device: BluetoothDevice)
+    fun connectSuccess(device: DeviceInfo)
 
     /**
      * 连接失败

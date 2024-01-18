@@ -46,7 +46,11 @@ object BleManager : IBleManager {
         mIBleManagerImpl.sendMessage(message, callback)
     }
 
-    override fun connect(bleAddress: String?, timeout: Int, connectCallback: IConnectBleCallback?) {
+    override fun connect(
+        bleAddress: String?,
+        timeout: Int?,
+        connectCallback: IConnectBleCallback?
+    ) {
         mIBleManagerImpl.connect(bleAddress, timeout, connectCallback)
     }
 

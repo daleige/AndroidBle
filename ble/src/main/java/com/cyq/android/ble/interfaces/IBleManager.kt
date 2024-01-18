@@ -50,7 +50,7 @@ interface IBleManager {
      */
     fun connect(
         bleAddress: String?,
-        timeout: Int = 10_000,
+        timeout: Int? = 10_000,
         connectCallback: IConnectBleCallback? = null
     )
 
