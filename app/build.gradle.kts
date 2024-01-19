@@ -48,4 +48,9 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    compileOnly("no.nordicsemi.android:ble:2.7.2")
+    compileOnly("no.nordicsemi.android:ble-ktx:2.7.2")
+    compileOnly("no.nordicsemi.android:ble-common:2.7.2")
+    compileOnly("no.nordicsemi.android:ble-livedata:2.7.2")
 }

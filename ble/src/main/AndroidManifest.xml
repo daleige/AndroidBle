@@ -7,6 +7,7 @@
     <!-- Android 12在不申请定位权限时，必须加上android:usesPermissionFlags="neverForLocation"，否则搜不到设备 -->
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

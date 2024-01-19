@@ -7,6 +7,7 @@ import android.bluetooth.le.ScanFilter
 import android.bluetooth.le.ScanResult
 import android.bluetooth.le.ScanSettings
 import android.content.Context
+import android.os.ParcelUuid
 import android.util.Log
 import com.cyq.android.ble.BleLog
 import com.cyq.android.ble.MyBleManager
@@ -82,6 +83,10 @@ class MyBleManagerImpl : IBleManager {
         BleLog.i("------->startScanDevice")
         // 设置扫描过滤条件,例如设置蓝牙名称，Mac地址，服务的uuid等
         val scanFilters = arrayListOf<ScanFilter>()
+        val scanFilter = ScanFilter.Builder()
+            .setServiceUuid(ParcelUuid.fromString("80323644-3537-4F0B-A53B-CF494ECEAAB3"))
+            .build()
+        scanFilters.add(scanFilter)
 
         // 设置扫描模式
         val settings = ScanSettings.Builder()
