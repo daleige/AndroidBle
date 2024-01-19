@@ -107,6 +107,7 @@ class GattService(val context: Context) {
             BleAdvertiser.advertiseData(),
             bleAdvertiseCallback!!
         )
+        Log.d(TAG,"开启蓝牙广播")
     }
 
     /**

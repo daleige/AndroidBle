@@ -29,7 +29,7 @@ object BleAdvertiser {
 
     fun settings():AdvertiseSettings{
         return AdvertiseSettings.Builder()
-            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED)
+            .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_POWER)
             .setConnectable(true)
             .setTimeout(0)
             .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_LOW)
@@ -38,9 +38,9 @@ object BleAdvertiser {
 
     fun advertiseData():AdvertiseData{
         return AdvertiseData.Builder()
-            .setIncludeDeviceName(false) // Including it will blow the length
+            .setIncludeDeviceName(true) // Including it will blow the length
             .setIncludeTxPowerLevel(false)
-            .addServiceUuid(ParcelUuid(ServiceConstant.MY_SERVICE_UUID))
+            .addServiceUuid(ParcelUuid.fromString("80323644-3537-4F0B-A53B-CF494ECEAAB3"))
             .build()
     }
 }
